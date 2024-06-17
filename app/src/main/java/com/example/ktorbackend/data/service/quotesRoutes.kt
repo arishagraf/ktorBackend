@@ -29,7 +29,7 @@ fun Route.quotesRoutes(quotesService: QuotesService) {
                 call.respond(updatedQuotesModel)
             }
         }
-        delete("/$MODIFIER_QUOTE_ROUTE") {
+        delete(MODIFIER_QUOTE_ROUTE) {
             val id = call.parameters[MODIFY_BY_PARAM]?.toLongOrNull()
             id?.let {
                 quotesService.deleteQuote(it)
