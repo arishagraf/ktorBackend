@@ -1,11 +1,13 @@
-package com.example.ktorbackend.api
+package com.example.ktorbackend.data.database
 
-import com.example.ktorbackend.database.Database
-import com.example.ktorbackend.database.QuotesModel
+import com.example.ktorbackend.domain.QuotesModel
+import com.example.ktorbackend.domain.QuotesRepository
 
-class QuotesService(private val database: Database) {
+class QuotesRepositoryImpl(
+    private val database: DatabaseConnection
+) : QuotesRepository {
 
-    fun getAllQuotes(): List<QuotesModel> {
+    override fun getAllQuotes(): List<QuotesModel> {
         val connection = database.connect()
         val stmt = connection.createStatement()
         val resultSet = stmt.executeQuery("SELECT * FROM quotes")
@@ -23,7 +25,7 @@ class QuotesService(private val database: Database) {
         return quotesModelList
     }
 
-    fun addQuote(quotesModel: QuotesModel) {
+    override fun addQuote(quotesModel: QuotesModel) {
         val connection = database.connect()
         val stmt = connection.prepareStatement("INSERT INTO quotes (author, content) VALUES (?, ?)")
         stmt.setString(1, quotesModel.author)
@@ -33,18 +35,19 @@ class QuotesService(private val database: Database) {
         connection.close()
     }
 
-    fun updateQuote(id: Long, updatedQuotesModel: QuotesModel) {
+    override fun updateQuote(id: Long, quotesModel: QuotesModel) {
         val connection = database.connect()
-        val stmt = connection.prepareStatement("UPDATE quotes SET author = ?, content = ? WHERE id = ?")
-        stmt.setString(1, updatedQuotesModel.author)
-        stmt.setString(2, updatedQuotesModel.content)
+        val stmt =
+            connection.prepareStatement("UPDATE quotes SET author = ?, content = ? WHERE id = ?")
+        stmt.setString(1, quotesModel.author)
+        stmt.setString(2, quotesModel.content)
         stmt.setLong(3, id)
         stmt.executeUpdate()
 
         connection.close()
     }
 
-    fun deleteQuote(id: Long) {
+    override fun deleteQuote(id: Long) {
         val connection = database.connect()
         val stmt = connection.prepareStatement("DELETE FROM quotes WHERE id = ?")
         stmt.setLong(1, id)

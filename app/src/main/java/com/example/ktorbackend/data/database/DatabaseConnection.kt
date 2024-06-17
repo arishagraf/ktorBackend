@@ -1,9 +1,9 @@
-package com.example.ktorbackend.database
+package com.example.ktorbackend.data.database
 
 import java.sql.Connection
 import java.sql.DriverManager
 
-object Database {
+object DatabaseConnection {
     fun connect() : Connection {
         val jdbcUrl = "jdbc:mysql://MacBook-Air-Arina.local:3306/quotes_database"
         val dbUser = "root"

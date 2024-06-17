@@ -1,4 +1,4 @@
-package com.example.ktorbackend.database
+package com.example.ktorbackend.domain
 
 data class QuotesModel(
     val id: Long,
