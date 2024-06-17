@@ -1,8 +1,8 @@
 package com.example.ktorbackend.domain
 
 interface QuotesRepository {
-    fun getAllQuotes(): List<QuotesModel>
-    fun addQuote(quotesModel: QuotesModel)
-    fun updateQuote(id: Long, quotesModel: QuotesModel)
-    fun deleteQuote(id: Long)
+    suspend fun getAllQuotes(): List<QuotesModel>
+    suspend fun addQuote(quotesModel: QuotesModel)
+    suspend fun updateQuote(id: Long, quotesModel: QuotesModel)
+    suspend fun deleteQuote(id: Long)
 }

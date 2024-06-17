@@ -1,18 +1,28 @@
 package com.example.ktorbackend.domain
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 class QuotesService(private val quotesRepository: QuotesRepository) {
 
-    fun getAllQuotes() = quotesRepository.getAllQuotes()
+    suspend fun getAllQuotes() = quotesRepository.getAllQuotes()
 
     fun addQuote(quotesModel: QuotesModel) {
-        quotesRepository.addQuote(quotesModel)
+        CoroutineScope(Dispatchers.IO).launch {
+            quotesRepository.addQuote(quotesModel)
+        }
     }
 
     fun updateQuote(id: Long, quotesModel: QuotesModel) {
-        quotesRepository.updateQuote(id, quotesModel)
+        CoroutineScope(Dispatchers.IO).launch {
+            quotesRepository.updateQuote(id, quotesModel)
+        }
     }
 
     fun deleteQuote(id: Long) {
-        quotesRepository.deleteQuote(id)
+        CoroutineScope(Dispatchers.IO).launch {
+            quotesRepository.deleteQuote(id)
+        }
     }
 }

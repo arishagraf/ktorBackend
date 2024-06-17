@@ -7,7 +7,7 @@ class QuotesRepositoryImpl(
     private val database: DatabaseConnection
 ) : QuotesRepository {
 
-    override fun getAllQuotes(): List<QuotesModel> {
+    override suspend fun getAllQuotes(): List<QuotesModel> {
         val connection = database.connect()
         val stmt = connection.createStatement()
         val resultSet = stmt.executeQuery("SELECT * FROM quotes")
@@ -25,7 +25,7 @@ class QuotesRepositoryImpl(
         return quotesModelList
     }
 
-    override fun addQuote(quotesModel: QuotesModel) {
+    override suspend fun addQuote(quotesModel: QuotesModel) {
         val connection = database.connect()
         val stmt = connection.prepareStatement("INSERT INTO quotes (author, content) VALUES (?, ?)")
         stmt.setString(1, quotesModel.author)
@@ -35,7 +35,7 @@ class QuotesRepositoryImpl(
         connection.close()
     }
 
-    override fun updateQuote(id: Long, quotesModel: QuotesModel) {
+    override suspend fun updateQuote(id: Long, quotesModel: QuotesModel) {
         val connection = database.connect()
         val stmt =
             connection.prepareStatement("UPDATE quotes SET author = ?, content = ? WHERE id = ?")
@@ -47,7 +47,7 @@ class QuotesRepositoryImpl(
         connection.close()
     }
 
-    override fun deleteQuote(id: Long) {
+    override suspend fun deleteQuote(id: Long) {
         val connection = database.connect()
         val stmt = connection.prepareStatement("DELETE FROM quotes WHERE id = ?")
         stmt.setLong(1, id)
